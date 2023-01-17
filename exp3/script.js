@@ -15,19 +15,17 @@ class Player {
     this.y = y
     this.radius = radius
     this.color = color
-    //var img = new Image();
-    //img.addEventListener('load', function (e) {
-    //  ctx.drawImage(this, 0, 0, 200, 300);
-    //  //ctx.fill();
-    //  //ctx.stroke();
-    //}, true);
-    //img.src = "spaceship render 1080p v2.png";
+    const PlayerImage = new Image()
+    PlayerImage.src = 'spaceship render 1080p v2.png'
+    PlayerImage.onload=()=>{
+      this.PlayerImage = PlayerImage
+      this.width = PlayerImage.width*0.1
+      this.height = PlayerImage.height *0.1
+    }
   }
   draw() {
-    ctx.beginPath()
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-    ctx.fillStyle = "rgba(0,0,0,1)"
-    ctx.fill()
+    if(this.PlayerImage)
+    ctx.drawImage(this.PlayerImage,this.x-(this.width/2),this.y-(this.height/2),this.width,this.height)
   }
 }
 
@@ -38,13 +36,18 @@ class Projectile {
     this.radius = radius;
     this.color = color;
     this.velocity = velocity
+
+    const ProjectileImage = new Image()
+    ProjectileImage.src = 'Projectile 2.png'
+    ProjectileImage.onload=()=>{
+      this.ProjectileImage = ProjectileImage
+    }
   }
 
+
   draw() {
-    ctx.beginPath()
-    ctx.arc(this.x, this.y, this.radius, Math.PI * 2, false)
-    ctx.fillStyle = this.color
-    ctx.fill()
+    if(this.ProjectileImage)
+    ctx.drawImage(this.ProjectileImage,this.x-7.5,this.y-7.5,15,15)
   }
   update() {
     this.draw()
@@ -60,12 +63,22 @@ class Enemy {
     this.radius = radius;
     this.color = color;
     this.velocity = velocity
+    const EnemyImage = new Image()
+    EnemyImage.src = 'Enemy Ship2.png'
+    EnemyImage.onload=()=>{
+      this.EnemyImage = EnemyImage
+      this.width = EnemyImage.width*0.1
+      this.height = EnemyImage.height *0.1
+    }
   }
 
   draw() {
+    if(this.EnemyImage)
+    ctx.drawImage(this.EnemyImage,this.x-(this.width/2),this.y-(this.height/2),this.width,this.height)
     ctx.beginPath()
     ctx.arc(this.x, this.y, this.radius, Math.PI * 2, false)
     ctx.fillStyle = this.color
+    
     ctx.fill()
   }
   update() {
@@ -92,20 +105,19 @@ function init() {
 
 function spawnEnemies() {
   setInterval(() => {
-    const radius = Math.random() * (30 - 10) + 10
+    const radius = 30
     let x
     let y
-    if (Math.random < 0.5) {
+    if (Math.random() < 0.5) {
       x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius
       y = Math.random() * canvas.height
-      //y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius
     } else {
       x = Math.random() * canvas.width
-      y = y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius
+      y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius
     }
 
-    const color = 'green'
-    const angle = Math.atan2(
+    const color = 'rgba(0,0,0,0.01)'
+    let angle = Math.atan2(
       canvas.height / 2 - y,
       canvas.width / 2 - x
     )
